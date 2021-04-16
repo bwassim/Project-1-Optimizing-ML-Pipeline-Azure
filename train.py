@@ -45,7 +45,7 @@ x, y = clean_data(ds)
 
 
 # Split data into test and train set
-x_train, x_test, y_train, y_test = train_test_split(x, y,test_size=0.20, random_state=42)
+x_train, x_test, y_train, y_test = train_test_split(x, y,test_size=0.20, random_state=1)
 
 run = Run.get_context()
 
@@ -68,9 +68,9 @@ def main():
     accuracy = model.score(x_test, y_test)
 
     # Save model for each iteration 
-    os.makedirs('output', exist_ok=True)
-    joblib.dump(model, 'output/model.joblib')
+    os.makedirs("outputs", exist_ok=True)
+    joblib.dump(model, "./outputs/best_hpd_model.joblib")
     run.log("accuracy", np.float(accuracy))
 
-if __name__ = '__main__':
+if __name__ == '__main__':
     main()
