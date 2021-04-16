@@ -43,10 +43,12 @@ def clean_data(data):
 
 x, y = clean_data(ds)
 
+
 # Split data into test and train set
-x_train, y_train, x_test, y_test = train_test_split(x, y, stratify=y, random_state=42)
+x_train, x_test, y_train, y_test = train_test_split(x, y,test_size=0.20, random_state=42)
 
 run = Run.get_context()
+
 
 def main():
 
@@ -68,7 +70,7 @@ def main():
     # Save model for each iteration 
     os.makedirs('output', exist_ok=True)
     joblib.dump(model, 'output/model.joblib')
-    run.log("Accuracy", np.float(accuracy))
+    run.log("accuracy", np.float(accuracy))
 
 if __name__ = '__main__':
     main()
