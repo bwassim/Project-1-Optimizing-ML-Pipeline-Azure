@@ -10,7 +10,7 @@ The used [`Bank Marketing Dataset`](https://archive.ics.uci.edu/ml/datasets/Bank
 
 We seek in this project to classify whether a certain client will subcsribe to a term deposit. The output label given in the last column `y` holds all the decisions made by different clients. The feature vectors described by the remaining columns holds the attributes of the bank clients, ranging from age, job, to marital status, housing loan, ...etc
 
-In order to achieve this, two approches for building our model are described. Hyperdrive tunning and AutoML. For the hyperdrive tunning we achieved an accuracy of `0.9132` with the best performing model. During the AutoML part, the results were very close with `0.9158`.
+In order to achieve this, two approches for building our model are described. Hyperdrive tunning and AutoML. For the HyperDrive tunning experiment we achieved an accuracy of `0.9132` with the best performing model. One the other hand for AutoML, the results were very close with `0.9158`.
 
 
 ## Scikit-learn Pipeline
@@ -19,9 +19,9 @@ The pipeline architecture is described in the diagram below.
 
 <img src="./images/training_d.png" width=650/>
 
-For the hypydrive part, we use a `train.py` python file that loads the csv marketing data file into a Tabular dataset before performing a logistic regression training with Scikit-learn. The tunning parameters are given by C and max_iter, such that  
-* C is defined as the inverse of regularization, that is high values will result in smalled regularization
-* max_iter: is the maximum number of iteration to converge.
+For the HypyDrive part, we use a `train.py` python file that loads the csv marketing data file into a Tabular dataset before performing a logistic regression training with Scikit-learn. The tunning parameters are given by C and max_iter, such that  
+>* C is defined as the inverse of regularization, that is high values will result in smalled regularization
+>* max_iter: is the maximum number of iteration to converge.
 
 The HyperDrive experiment is orchestrated in a jupyter notebook hosted in a compute instance. Note that in the HyperDrive config file we specify the train.py file that is used for the purpose of performing the logistic regression training for each assigned hyperparameter. 
 ## Data 
