@@ -24,9 +24,59 @@ For the HypyDrive part, we use a `train.py` python file that loads the csv marke
 >* max_iter: is the maximum number of iteration to converge.
 
 The HyperDrive experiment is orchestrated in a jupyter notebook hosted in a compute instance. Note that in the HyperDrive config file we specify the train.py file that is used for the purpose of performing the logistic regression training for each assigned hyperparameter. 
-## Data 
-After the data is loaded, it is split into a training and a test set using the scikit-learn functino `train_test_split`
+
+### Classification algorithm 
+1. First the csv dataset is loaded with the `TabularDatasetFactory` function using its URL.
+2. Data cleaning and Onehot encoding is performed with the `clean_data` function
+3. The data is split into a training and a test set using the scikit-learn function `train_test_split`
+4. Allowing hyperparameter parsing
+5. The LogisticRegression function from scikit-learn library is used for training
+6. Saving the trained model as a joblib file.
+
 ## HyperDrive Tunning
+After creating the experiment and the workspace, we create a cluster instance to run our experiment and we make sure to continue if the latter already exist. we start with the ScriptRunConfig to let HyperDrive know which training file it needs to use, we can also specify a certain environment with its spcecific packages to run the scikit-learn logistic regression in Azure. We also need to specify the source directory that is holding our train.py file and finally the `Bandit` termination policy.
+
+```python
+est = ScriptRunConfig(source_directory = '.',
+                      script = 'train.py',
+                      compute_target = compute_target,
+                      environment = sklearn_env)
+```
+We need after to specify the parameter sampler as follows 
+```python 
+ps = RandomParameterSampling({
+    "C": choice(0.01, 0.1, 1, 10, 20, 40),
+    "max_iter": choice(100, 150, 200, 250)
+})
+# Specify a Policy
+policy = BanditPolicy(evaluation_interval=2, slack_factor=0.1)
+```
+
+### Benefits of the parameter sampler
+Hyperparameter sampler can generate discrete or continuous values, and has a distribution of values described by a parameter expression. parameter sampler allows us to explore various models in order to eliminate bias and increase the accuracy. 
+
+### Benefits of the early stopping policy
+The early stopping policy simply terminate poorly performing runs to save compute ressources. The bandit policy just terminates any run that doesn't fall within the slack factor of the evaluation metric with respect to the best performing run. evaluation interval defines the frequency for applying the policy. The slack factor is just a percentage of the best run, below wich we cancel the run. 
+
+```python 
+# Create a HyperDriveConfig using the estimator, hyperparameter sampler, and policy.
+hyperdrive_config = HyperDriveConfig(run_config = est,
+                                    hyperparameter_sampling = ps,
+                                    policy=policy,
+                                    primary_metric_name = 'accuracy',
+                                    primary_metric_goal = PrimaryMetricGoal.MAXIMIZE,
+                                    max_total_runs = 20,
+                                    max_concurrent_runs = 4)
+```
+Note that our primary metric that we are trying to maximize is the accuracy. One can also see that it is calculated in `train.py`.
+
+Finally we submit the experiment.
+```python
+# Submit your hyperdrive run to the experiment and show run details with the widget.
+hdr = exp.submit(config= hyperdrive_config)
+hdr.wait_for_completion(show_output=True)
+```
+<img src="./images/run_autoML.png" width=850/>
 
 
 **Explain the pipeline architecture, including data, hyperparameter tuning, and classification algorithm.**
