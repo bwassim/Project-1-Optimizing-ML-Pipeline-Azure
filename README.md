@@ -6,11 +6,29 @@ In this project, we build and optimize an Azure ML pipeline using the Python SDK
 This model is then compared to an Azure AutoML run.
 
 ## Summary
-**In 1-2 sentences, explain the problem statement: e.g "This dataset contains data about... we seek to predict..."**
+The used [`Bank Marketing Dataset`](https://archive.ics.uci.edu/ml/datasets/Bank+Marketing) is related with direct marketing compains of a Portuguese banking institution. The marketing compains were based on phone calls. The data highlights if `yes` or `No` a certain product (bank term deposit) has been subscibed to by a client.
 
-**In 1-2 sentences, explain the solution: e.g. "The best performing model was a ..."**
+We seek in this project to classify whether a certain client will subcsribe to a term deposit. The output label given in the last column `y` holds all the decisions made by different clients. The feature vectors described by the remaining columns holds the attributes of the bank clients, ranging from age, job, to marital status, housing loan, ...etc
+
+In order to achieve this, two approches for building our model are described. Hyperdrive tunning and AutoML. For the hyperdrive tunning we achieved an accuracy of `0.9132` with the best performing model. During the AutoML part, the results were very close with `0.9158`.
+
 
 ## Scikit-learn Pipeline
+### Pipeline architecture 
+The pipeline architecture is described in the diagram below. 
+
+<img src="./images/training_d.png" width=650/>
+
+For the hypydrive part, we use a `train.py` python file that loads the csv marketing data file into a Tabular dataset before performing a logistic regression training with Scikit-learn. The tunning parameters are given by C and max_iter, such that  
+* C is defined as the inverse of regularization, that is high values will result in smalled regularization
+* max_iter: is the maximum number of iteration to converge.
+
+The HyperDrive experiment is orchestrated in a jupyter notebook hosted in a compute instance. Note that in the HyperDrive config file we specify the train.py file that is used for the purpose of performing the logistic regression training for each assigned hyperparameter. 
+## Data 
+After the data is loaded, it is split into a training and a test set using the scikit-learn functino `train_test_split`
+## HyperDrive Tunning
+
+
 **Explain the pipeline architecture, including data, hyperparameter tuning, and classification algorithm.**
 
 **What are the benefits of the parameter sampler you chose?**
