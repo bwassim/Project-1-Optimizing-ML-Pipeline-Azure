@@ -136,7 +136,7 @@ automl_config = AutoMLConfig(task = "classification",
                              **automl_settings)
 ```
 
-<img src="./images/table_voting.png" width=950/>
+<img src="./images/table_voting_.png" width=950/>
 
 We can observe that the `Voting ensemble` model gives us the best predictions. Voting esembles combines different machine leanring classification algorithms and uses the hard voting classifier (or what is known as hard voting classifier). In contrast to soft voting that takes the average over all individual classifiers predicted probabilities.
 
