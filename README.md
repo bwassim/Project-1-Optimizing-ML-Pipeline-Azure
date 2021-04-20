@@ -177,6 +177,7 @@ Data guardrails are applied:
 * For studio experiments: When automatic featurization is enabled.
   
 Therefore we just need to enable `"featurization"` in AutoMLConfig.
+- Another way of dealing with imbalanced data as highlighted in the attached link below is to use a performance metric that deals better with imbalanced data. For example, the `AUC_weighted` is a primary metric that calculates the contribution of every class based on the relative number of samples representing that class, hence is more robust against imbalance.
 ## Proof of cluster clean up
 To delete the compute cluster use the following 
 ```python
