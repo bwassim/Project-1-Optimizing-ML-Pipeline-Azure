@@ -155,8 +155,8 @@ The autoML pipeline with the ensemble learning results in a slightly better accu
 * AutoML did not require the use of an extermal file when compared to HyperDrive.
 
 To summarize HyperDrive experiment focuses on improving a single model by tunning its hyperparameters and at the end selecting the best model, while AutoML explores a large set of models and picks at the end the one with the best prediction.
-<img src="./images/precision_recall_ROC.png" width=850/>
-<img src="./images/calibrate_lift.png" width=850/>
+<img src="./images/precision_recall_ROC.png" width=950/>
+<img src="./images/calibrate_lift.png" width=950/>
 
 ## Future work
 During the AutoML experiment we have received the warning depicted in the figure below saying that imbalanced classes were detected in our inputs. 
